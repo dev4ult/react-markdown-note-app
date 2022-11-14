@@ -1,41 +1,41 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.App {
+  padding: 1.5rem;
+  display: flex;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+aside {
+  margin-right: 1rem;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.title-heading {
+  font-size: 2rem;
+  font-weight: 500;
+  padding: 1rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.note-tab-title {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 3px;
+  list-style: none;
+  margin-block: 0.3rem;
+  cursor: pointer;
 }
 
-.card {
-  padding: 2em;
+.note-tab-title:hover {
+  background-color: black;
+  color: white;
 }
 
-.read-the-docs {
-  color: #888;
+.btn-view-note {
+  padding-inline: 0.5rem;
+  line-height: 1.5;
+  cursor: pointer;
+  background: none;
+  border: none;
+  margin-right: 0.3rem;
+}
+
+.btn-active {
+  border: 1px solid black;
 }
