@@ -1,21 +1,56 @@
 .App {
   padding: 1.5rem;
   display: flex;
+  border: 0.5px solid rgb(215, 215, 215);
+  box-shadow: 5px 5px 10px rgb(204, 204, 204);
 }
 
 aside {
   margin-right: 1rem;
 }
 
+.tab-active {
+  background-color: black;
+  color: white;
+}
+
+.heading {
+  display: flex;
+  padding-inline: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
 .title-heading {
   font-size: 2rem;
   font-weight: 500;
-  padding: 1rem;
+  margin-right: 1.3rem;
+}
+
+.btn-add-note {
+  background: none;
+  cursor: pointer;
+  border-radius: 3px;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  border: 2px solid black;
+  background-color: white;
+  color: black;
+}
+
+.btn-add-note:hover {
+  background-color: black;
+  color: white;
 }
 
 .note-tab-title {
-  padding: 0.5rem;
-  font-size: 1rem;
+  padding-inline: 0.7rem;
+  line-height: 2;
+  font-size: 1.2rem;
   border-radius: 3px;
   list-style: none;
   margin-block: 0.3rem;
@@ -27,15 +62,63 @@ aside {
   color: white;
 }
 
+.toolbars {
+  display: flex;
+  padding: 0.6rem;
+  flex-wrap: wrap;
+  column-gap: 35px;
+  row-gap: 15px;
+  align-items: center;
+}
+
+.view-list {
+  display: flex;
+  gap: 4px;
+}
+
 .btn-view-note {
-  padding-inline: 0.5rem;
+  padding-inline: 0.3rem;
+  font-size: 1rem;
   line-height: 1.5;
   cursor: pointer;
   background: none;
   border: none;
-  margin-right: 0.3rem;
 }
 
 .btn-active {
   border: 1px solid black;
+}
+
+.editor-list {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.font-editor {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.editor-img {
+  width: 20px;
+  height: 20px;
+}
+
+.note-view {
+  margin-top: 1rem;
+}
+
+.write-note {
+  border: 2px solid black;
+  padding: 1rem;
+  font-size: 1.2rem;
+  resize: none;
+  width: 100%;
+  height: 75vh;
+}
+
+.write-note:focus {
+  outline: none;
 }

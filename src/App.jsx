@@ -5,13 +5,18 @@ function App() {
   return (
     <div className="App">
       <aside>
-        <h1 className="title-heading">Notes</h1>
+        <div className="heading">
+          <h1 className="title-heading">Notes</h1>
+          <button type="button" className="btn-add-note">
+            +
+          </button>
+        </div>
         <ul>
-          <li className="note-tab-title">Title 1</li>
-          <li className="note-tab-title">Title 1</li>
-          <li className="note-tab-title">Title 1</li>
-          <li className="note-tab-title">Title 1</li>
-          <li className="note-tab-title">Title 1</li>
+          <li className="note-tab-title">Note 1</li>
+          <li className="note-tab-title">Note 1</li>
+          <li className="note-tab-title tab-active">Note 1</li>
+          <li className="note-tab-title">Note 1</li>
+          <li className="note-tab-title">Note 1</li>
         </ul>
       </aside>
       <Notes />
