@@ -51,12 +51,12 @@ aside {
 
 .modal {
   background-color: white;
-  padding: 1rem;
+  padding: 1.5rem;
   border-radius: 5px;
 }
 
 .modal-input-text {
-  margin-block: 0.5rem;
+  margin-block: 0.8rem;
   border: none;
   border-bottom: 2px solid black;
   padding-inline: 6px;

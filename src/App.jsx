@@ -6,24 +6,35 @@ import Modal from './components/Modal.jsx';
 function App() {
   const [show, setShow] = useState(false);
   const [notes, setNotes] = useState([]);
+  const [inputTextVal, setInputTextVal] = useState('');
 
   function addNote() {
-    const textInput = document.querySelector('.modal-input-text');
-    const title = textInput.value;
-
-    if (title !== '') {
+    if (inputTextVal !== '') {
       setNotes((prevNotes) => {
+        const newId = prevNotes.length == 0 ? 1 : prevNotes[prevNotes.length - 1].id + 1;
         return [
           ...prevNotes,
           {
-            id: prevNotes.length == 0 ? 1 : prevNotes[prevNotes.length - 1].id + 1,
-            title,
+            id: newId,
+            title: inputTextVal,
             selected: false,
           },
         ];
       });
+      setInputTextVal('');
       setShow(false);
     }
+  }
+
+  function handleKey(e) {
+    if (e.key == 'Enter') {
+      addNote();
+    }
+  }
+
+  function handleChange(e) {
+    const { value } = e.target;
+    setInputTextVal(value);
   }
 
   function toggleSelected(e) {
@@ -40,6 +51,17 @@ function App() {
     });
   }
 
+  const noteList = notes.map((note) => {
+    const { id, title, selected } = note;
+    return (
+      <li>
+        <button className={'note-tab-title' + (selected ? ' tab-active' : '')} key={title} id={id} onClick={toggleSelected}>
+          {title}
+        </button>
+      </li>
+    );
+  });
+
   return (
     <div className="App">
       <aside>
@@ -49,33 +71,8 @@ function App() {
             +
           </button>
         </div>
-        {show && (
-          <div className="modal-container">
-            <div className="modal">
-              <Modal title="Note Title" textInput="Type your note title here" />
-              <div>
-                <button className="btn-add-note" onClick={addNote}>
-                  add
-                </button>
-                <button className="btn-hide-modal" type="button" onClick={setShow.bind('', false)}>
-                  cancel
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-        <ul>
-          {notes.map((note) => {
-            const { id, title, selected } = note;
-            return (
-              <li>
-                <button className={'note-tab-title' + (selected ? ' tab-active' : '')} key={title} id={id} onClick={toggleSelected}>
-                  {title}
-                </button>
-              </li>
-            );
-          })}
-        </ul>
+        {show && <Modal title="Note Title" textInput="Type your note title here" inputVal={inputTextVal} handleInput={handleChange} onKeydown={handleKey} setShowHandle={setShow} onClickAccept={addNote} />}
+        <ul>{noteList}</ul>
       </aside>
       <Notes />
     </div>

@@ -1,21 +1,22 @@
-import { useState } from 'react';
-
 function Modal(props) {
-  const [inputVal, setInputVal] = useState('');
-
-  const { title, desc, textInput } = props;
-
-  function handleChange(e) {
-    const { value } = e.target;
-    setInputVal(value);
-  }
+  const { title, desc, textInput, onKeydown, onClickAccept, setShowHandle, handleInput, inputVal } = props;
 
   return (
-    <>
-      <h1 className="modal-title">{title}</h1>
-      {true && (desc ? <p className="modal-desc">{desc}</p> : false)}
-      {true && (textInput ? <input className="modal-input-text" type="text" placeholder={textInput} value={inputVal} onChange={handleChange} name="text-input" /> : false)}
-    </>
+    <div className="modal-container">
+      <div className="modal">
+        <h1 className="modal-title">{title}</h1>
+        {true && (desc ? <p className="modal-desc">{desc}</p> : false)}
+        {true && (textInput ? <input className="modal-input-text" type="text" placeholder={textInput} value={inputVal} onChange={handleInput} onKeyDown={onKeydown} name="text-input" /> : false)}
+        <div>
+          <button className="btn-add-note" onClick={onClickAccept}>
+            add
+          </button>
+          <button className="btn-hide-modal" type="button" onClick={setShowHandle.bind('', false)}>
+            cancel
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 
