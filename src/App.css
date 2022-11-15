@@ -1,17 +1,12 @@
 .App {
   padding: 1.5rem;
   display: flex;
-  border: 0.5px solid rgb(215, 215, 215);
-  box-shadow: 5px 5px 10px rgb(204, 204, 204);
+  background-color: white;
+  border-radius: 5px;
 }
 
 aside {
   margin-right: 1rem;
-}
-
-.tab-active {
-  background-color: black;
-  color: white;
 }
 
 .heading {
@@ -27,7 +22,7 @@ aside {
   margin-right: 1.3rem;
 }
 
-.btn-add-note {
+.btn-show-modal {
   background: none;
   cursor: pointer;
   border-radius: 3px;
@@ -38,28 +33,102 @@ aside {
   align-items: center;
   font-size: 2rem;
   border: 2px solid black;
-  background-color: white;
-  color: black;
-}
-
-.btn-add-note:hover {
   background-color: black;
   color: white;
 }
 
+.modal-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(139, 139, 139, 0.5);
+}
+
+.modal {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 5px;
+}
+
+.modal-input-text {
+  margin-block: 0.5rem;
+  border: none;
+  border-bottom: 2px solid black;
+  padding-inline: 6px;
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+.modal-input-text:focus {
+  outline: none;
+}
+
+.modal div {
+  margin-left: auto;
+  width: fit-content;
+  display: flex;
+  gap: 4px;
+  margin-top: 1rem;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.btn-add-note,
+.btn-hide-modal {
+  font-size: 1rem;
+  padding: 0.15rem 0.6rem;
+  border-radius: 3px;
+  cursor: pointer;
+  border: none;
+  text-transform: capitalize;
+}
+
+.btn-add-note {
+  background-color: black;
+  color: white;
+}
+
+.btn-hide-modal {
+  background: none;
+}
+
+li {
+  list-style: none;
+}
+
 .note-tab-title {
-  padding-inline: 0.7rem;
-  line-height: 2;
+  padding: 0.7rem;
+  background: none;
+  border: none;
   font-size: 1.2rem;
   border-radius: 3px;
-  list-style: none;
   margin-block: 0.3rem;
   cursor: pointer;
+  max-width: 200px;
+  width: 100%;
+  text-align: left;
 }
 
 .note-tab-title:hover {
   background-color: black;
   color: white;
+}
+
+.tab-active {
+  background-color: black;
+  color: white;
+}
+
+.tab-active:hover {
+  background-color: black;
 }
 
 .toolbars {
@@ -77,7 +146,7 @@ aside {
 }
 
 .btn-view-note {
-  padding-inline: 0.3rem;
+  padding-inline: 0.5rem;
   font-size: 1rem;
   line-height: 1.5;
   cursor: pointer;
@@ -86,7 +155,9 @@ aside {
 }
 
 .btn-active {
-  border: 1px solid black;
+  background-color: black;
+  color: white;
+  border-radius: 3px;
 }
 
 .editor-list {
