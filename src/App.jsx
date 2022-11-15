@@ -3,9 +3,18 @@ import './App.css';
 import Notes from './components/Notes.jsx';
 import Modal from './components/Modal.jsx';
 
+if (Storage !== undefined) {
+  if (localStorage.getItem('notes') === null) {
+    localStorage.setItem('notes', JSON.stringify([]));
+  }
+} else {
+  console.log('Storage is not available for this browser');
+}
+
 function App() {
-  const [show, setShow] = useState(false);
   const [notes, setNotes] = useState([]);
+
+  const [show, setShow] = useState(false);
   const [inputTextVal, setInputTextVal] = useState('');
 
   function addNote() {
@@ -56,7 +65,7 @@ function App() {
     return (
       <li>
         <button className={'note-tab-title' + (selected ? ' tab-active' : '')} key={title} id={id} onClick={toggleSelected}>
-          {title}
+          {selected ? <img src="./src/assets/right-arrow.svg" alt="right arrow" className="right-arrow" /> : ''} {title}
         </button>
       </li>
     );
