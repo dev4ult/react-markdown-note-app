@@ -3,6 +3,7 @@ import './App.css';
 import Notes from './components/Notes.jsx';
 import Modal from './components/Modal.jsx';
 
+// checking storage availability
 if (Storage !== undefined) {
   if (localStorage.getItem('notes') === null) {
     localStorage.setItem('notes', JSON.stringify([]));
@@ -13,9 +14,25 @@ if (Storage !== undefined) {
 
 function App() {
   const [notes, setNotes] = useState([]);
+  const [textNote, setTextNote] = useState('');
+
+  useEffect(() => {
+    if (localStorage.getItem('notes') === null) {
+      console.log('test');
+      localStorage.setItem('notes', JSON.stringify([]));
+    }
+    const notesFromLocalStorage = JSON.parse(localStorage.getItem('notes'));
+    setNotes(notesFromLocalStorage);
+  }, []);
 
   const [show, setShow] = useState(false);
   const [inputTextVal, setInputTextVal] = useState('');
+
+  useEffect(() => {
+    if (notes.length > 0) {
+      localStorage.setItem('notes', JSON.stringify(notes));
+    }
+  }, [notes]);
 
   function addNote() {
     if (inputTextVal !== '') {
@@ -26,6 +43,7 @@ function App() {
           {
             id: newId,
             title: inputTextVal,
+            text: '',
             selected: false,
           },
         ];
