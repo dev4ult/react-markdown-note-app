@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import FontEditor from './FontEditor.jsx';
 
-function Notes() {
+function Notes(props) {
   const [active, setActive] = useState({
     btnWrite: true,
     btnPreview: false,
   });
+
+  const { btnWrite, btnPreview } = active;
+
+  const { handleNoteChange, textNote } = props;
 
   function handleActive(e) {
     const { name } = e.target;
@@ -19,8 +23,6 @@ function Notes() {
           };
     });
   }
-
-  const { btnWrite, btnPreview } = active;
 
   return (
     <div className="Notes">
@@ -50,7 +52,7 @@ function Notes() {
         </div>
       </section>
       <section className="note-view">
-        <textarea className="write-note"></textarea>
+        <textarea className="write-note" onChange={handleNoteChange} value={textNote}></textarea>
         <div className="preview-note"></div>
       </section>
     </div>
