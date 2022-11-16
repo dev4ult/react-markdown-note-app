@@ -107,7 +107,6 @@ li {
 .note-tab-title {
   display: flex;
   align-items: center;
-  gap: 5px;
   padding: 0.7rem;
   background: none;
   border: none;
