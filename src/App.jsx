@@ -14,15 +14,17 @@ if (Storage !== undefined) {
 
 function App() {
   const [notes, setNotes] = useState([]);
+
   const [textNote, setTextNote] = useState('');
 
   useEffect(() => {
     if (localStorage.getItem('notes') === null) {
-      console.log('test');
       localStorage.setItem('notes', JSON.stringify([]));
+      setNotes([]);
+    } else {
+      const notesFromLocalStorage = JSON.parse(localStorage.getItem('notes'));
+      setNotes(notesFromLocalStorage);
     }
-    const notesFromLocalStorage = JSON.parse(localStorage.getItem('notes'));
-    setNotes(notesFromLocalStorage);
   }, []);
 
   const [show, setShow] = useState(false);
@@ -44,7 +46,7 @@ function App() {
             id: newId,
             title: inputTextVal,
             text: '',
-            selected: false,
+            selected: prevNotes.length == 0 ? true : false,
           },
         ];
       });
@@ -64,30 +66,42 @@ function App() {
     setInputTextVal(value);
   }
 
-  function toggleSelected(e) {
+  function toggleSelect(e) {
     const { id } = e.target;
     const index = notes.map((note) => note.id).indexOf(parseInt(id));
 
     setNotes((prevNotes) => {
       const newNotes = prevNotes;
-      newNotes.forEach((note) => {
-        note.selected = false;
-      });
+      const indexOfPrevSelected = newNotes.map((note) => note.selected).indexOf(true);
+      newNotes[indexOfPrevSelected].selected = false;
       newNotes[index].selected = true;
       return [...newNotes];
     });
+
+    setTextNote(notes[index].text);
   }
 
   const noteList = notes.map((note) => {
     const { id, title, selected } = note;
     return (
       <li>
-        <button className={'note-tab-title' + (selected ? ' tab-active' : '')} key={title} id={id} onClick={toggleSelected}>
-          {selected ? <img src="./src/assets/right-arrow.svg" alt="right arrow" className="right-arrow" /> : ''} {title}
+        <button className={'note-tab-title' + (selected ? ' tab-active' : '')} key={title} id={id} onClick={toggleSelect}>
+          {title}
         </button>
       </li>
     );
   });
+
+  function handleNoteChange(e) {
+    const { value } = e.target;
+    setTextNote(value);
+    setNotes((prevNotes) => {
+      const indexOfSelected = prevNotes.map((note) => note.selected).indexOf(true);
+      const newNotes = prevNotes;
+      newNotes[indexOfSelected].text = textNote;
+      return [...newNotes];
+    });
+  }
 
   return (
     <div className="App">
@@ -101,7 +115,7 @@ function App() {
         {show && <Modal title="Note Title" textInput="Type your note title here" inputVal={inputTextVal} handleInput={handleChange} onKeydown={handleKey} setShowHandle={setShow} onClickAccept={addNote} />}
         <ul>{noteList}</ul>
       </aside>
-      <Notes />
+      <Notes handleNoteChange={handleNoteChange} textNote={textNote} />
     </div>
   );
 }
