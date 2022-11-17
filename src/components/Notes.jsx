@@ -1,26 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FontEditor from './FontEditor.jsx';
 
-function Notes(props) {
-  const [active, setActive] = useState({
-    btnWrite: true,
-    btnPreview: false,
-  });
+function Notes({ handleNoteChange, textNote }) {
+  const [preview, setPriview] = useState(false);
 
-  const { btnWrite, btnPreview } = active;
+  const previewNote = textNote.replace(/\n/g, '<br />').replace(/# /g, '<h1>').replace(/ #/g, '</h1>');
 
-  const { handleNoteChange, textNote } = props;
-
-  function handleActive(e) {
+  function toggleView(e) {
     const { name } = e.target;
-    setActive((prevSet) => {
-      const { btnWrite, btnPreview } = prevSet;
-      return (name === 'btnWrite' ? btnWrite : btnPreview)
-        ? prevSet
-        : {
-            btnWrite: !btnWrite,
-            btnPreview: !btnPreview,
-          };
+    setPriview((prevSet) => {
+      return (name === 'btnPreview' && prevSet) || (name === 'btnWrite' && !prevSet) ? prevSet : !prevSet;
     });
   }
 
@@ -28,10 +17,10 @@ function Notes(props) {
     <div className="Notes">
       <section className="toolbars">
         <div className="view-list">
-          <button type="button" className={`btn-view-note${btnWrite ? ' btn-active' : ''}`} name="btnWrite" onClick={handleActive}>
+          <button type="button" className={'btn-view-note' + (preview ? '' : ' btn-active')} name="btnWrite" onClick={toggleView}>
             Write
           </button>
-          <button type="button" className={`btn-view-note${btnPreview ? ' btn-active' : ''}`} name="btnPreview" onClick={handleActive}>
+          <button type="button" className={'btn-view-note' + (preview ? ' btn-active' : '')} name="btnPreview" onClick={toggleView}>
             Preview
           </button>
         </div>
@@ -51,10 +40,7 @@ function Notes(props) {
           <FontEditor name="Check List" svg="check-list.svg" />
         </div>
       </section>
-      <section className="note-view">
-        <textarea className="write-note" onChange={handleNoteChange} value={textNote}></textarea>
-        <div className="preview-note"></div>
-      </section>
+      <section className="note-view">{preview ? <div className="preview-note">{previewNote}</div> : <textarea className="write-note" onChange={handleNoteChange} value={textNote}></textarea>}</section>
     </div>
   );
 }

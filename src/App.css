@@ -187,12 +187,15 @@ li {
   margin-top: 1rem;
 }
 
-.write-note {
+.write-note,
+.preview-note {
+  display: block;
   border: 2px solid black;
   padding: 1rem;
   font-size: 1.2rem;
   resize: none;
   width: 100%;
+  max-width: 582.57px;
   height: 75vh;
 }
 
