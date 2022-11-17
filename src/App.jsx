@@ -33,6 +33,8 @@ function App() {
   useEffect(() => {
     if (notes.length > 0) {
       localStorage.setItem('notes', JSON.stringify(notes));
+      const indexOfSelected = notes.map((note) => note.selected).indexOf(true);
+      setTextNote(notes[indexOfSelected].text);
     }
   }, [notes]);
 
@@ -98,7 +100,7 @@ function App() {
     setNotes((prevNotes) => {
       const indexOfSelected = prevNotes.map((note) => note.selected).indexOf(true);
       const newNotes = prevNotes;
-      newNotes[indexOfSelected].text = textNote;
+      newNotes[indexOfSelected].text = value;
       return [...newNotes];
     });
   }
