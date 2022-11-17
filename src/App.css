@@ -199,6 +199,10 @@ li {
   height: 75vh;
 }
 
+.preview-note h1 {
+  display: inline;
+}
+
 .write-note:focus {
   outline: none;
 }
