@@ -1,6 +1,4 @@
-function Modal(props) {
-  const { title, desc, textInput, onKeydown, onClickAccept, setShowHandle, handleInput, inputVal } = props;
-
+function Modal({ title, desc, textInput, onKeydown, onClickAccept, setShowHandle, handleInput, inputVal, btnHideModalText }) {
   return (
     <div className="modal-container">
       <div className="modal">
@@ -8,12 +6,20 @@ function Modal(props) {
         {true && (desc ? <p className="modal-desc">{desc}</p> : false)}
         {true && (textInput ? <input className="modal-input-text" type="text" placeholder={textInput} value={inputVal} onChange={handleInput} onKeyDown={onKeydown} name="text-input" /> : false)}
         <div>
-          <button className="btn-add-note" onClick={onClickAccept}>
-            add
-          </button>
-          <button className="btn-hide-modal" type="button" onClick={setShowHandle.bind('', false)}>
-            cancel
-          </button>
+          {true && onClickAccept ? (
+            <button className="btn-add-note" onClick={onClickAccept}>
+              add
+            </button>
+          ) : (
+            ''
+          )}
+          {true && setShowHandle ? (
+            <button className="btn-hide-modal" type="button" onClick={setShowHandle.bind('', false)}>
+              {btnHideModalText}
+            </button>
+          ) : (
+            ''
+          )}
         </div>
       </div>
     </div>

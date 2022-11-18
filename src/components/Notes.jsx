@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import FontEditor from './FontEditor.jsx';
 import parse from 'html-react-parser';
 
-function Notes({ handleNoteChange, textNote }) {
+function Notes({ handleNoteChange, textNote, handleFont }) {
   const [previewMode, setViewMode] = useState(false);
   const [previewNote, setPreviewNote] = useState('doNotLetEmpty');
 
@@ -35,7 +35,7 @@ function Notes({ handleNoteChange, textNote }) {
 
       // changing # for heading with <h1> html tag
       convertSymbolToTag('#', 'h1');
-      convertSymbolToTag('@', 'b');
+      convertSymbolToTag('!', 'b');
       convertSymbolToTag('_', 'i');
       convertSymbolToTag('~', 's');
 
@@ -56,18 +56,18 @@ function Notes({ handleNoteChange, textNote }) {
     <div className="Notes">
       <section className="toolbars">
         <div className="view-list">
-          <button type="button" className={'btn-view-note' + (previewMode ? '' : ' btn-active')} name="btnWrite" onClick={toggleView}>
+          <button type="button" className={'btn-view-note' + (previewMode ? '' : ' btn-selected')} name="btnWrite" onClick={toggleView}>
             Write
           </button>
-          <button type="button" className={'btn-view-note' + (previewMode ? ' btn-active' : '')} name="btnPreview" onClick={toggleView}>
+          <button type="button" className={'btn-view-note' + (previewMode ? ' btn-selected' : '')} name="btnPreview" onClick={toggleView}>
             Preview
           </button>
         </div>
         <div className="editor-list">
-          <FontEditor name="Heading" svg="heading.svg" />
-          <FontEditor name="Bold" svg="bold.svg" />
-          <FontEditor name="Italic" svg="italic.svg" />
-          <FontEditor name="Strikethrough" svg="Strikethrough.svg" />
+          <FontEditor name="Heading" svg="heading.svg" onClick={handleFont.bind(null, '#')} />
+          <FontEditor name="Bold" svg="bold.svg" onClick={handleFont.bind(null, '!')} />
+          <FontEditor name="Italic" svg="italic.svg" onClick={handleFont.bind(null, '_')} />
+          <FontEditor name="Strikethrough" svg="Strikethrough.svg" onClick={handleFont.bind(null, '~')} />
           <FontEditor name="Hyperlink" svg="hyperlink.svg" />
           <FontEditor name="Double-quote" svg="double-quote.svg" />
           <FontEditor name="Code" svg="code.svg" />

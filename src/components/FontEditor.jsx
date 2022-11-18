@@ -1,9 +1,8 @@
-function FontEditor(props) {
-  const { svg, name } = props;
+function FontEditor({ name, svg, onClick }) {
   return (
-    <span className="font-editor">
+    <button type="button" className="font-editor" onClick={onClick}>
       <img src={'./src/assets/' + svg} alt={name + ' logo'} className="editor-img" />
-    </span>
+    </button>
   );
 }
 
