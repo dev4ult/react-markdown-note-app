@@ -14,8 +14,12 @@ if (Storage !== undefined) {
 
 function App() {
   const [notes, setNotes] = useState([]);
-
   const [textNote, setTextNote] = useState('');
+
+  const [inputTextVal, setInputTextVal] = useState('');
+
+  const [show, setShow] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem('notes') === null) {
@@ -26,9 +30,6 @@ function App() {
       setNotes(notesFromLocalStorage);
     }
   }, []);
-
-  const [show, setShow] = useState(false);
-  const [inputTextVal, setInputTextVal] = useState('');
 
   useEffect(() => {
     if (notes.length > 0) {
@@ -68,6 +69,14 @@ function App() {
     setInputTextVal(value);
   }
 
+  const [modal, setModal] = useState(
+    <Modal title="Note Title" textInput="Type your note title here" onKeydown={handleKey} onClickAccept={addNote} setShowHandle={setShow} handleInput={handleChange} inputVal={inputTextVal} btnHideModalText="Cancel" />
+  );
+
+  useEffect(() => {
+    setModal(<Modal title="Note Title" textInput="Type your note title here" onKeydown={handleKey} onClickAccept={addNote} setShowHandle={setShow} handleInput={handleChange} inputVal={inputTextVal} btnHideModalText="Cancel" />);
+  }, [inputTextVal]);
+
   function toggleSelect(e) {
     const { id } = e.target;
     const index = notes.map((note) => note.id).indexOf(parseInt(id));
@@ -87,7 +96,7 @@ function App() {
     const { id, title, selected } = note;
     return (
       <li>
-        <button className={'note-tab-title' + (selected ? ' tab-active' : '')} key={title} id={id} onClick={toggleSelect}>
+        <button className={'note-tab-title' + (selected ? ' btn-selected' : '')} key={title} id={id} onClick={toggleSelect}>
           {title}
         </button>
       </li>
@@ -105,19 +114,47 @@ function App() {
     });
   }
 
+  function fontEditorClicked(symbol) {
+    setModal(<Modal title="Warning!" desc="ayam goreng" setShowHandle={setShow} btnHideModalText="Close" />);
+
+    const textArea = document.querySelector('textarea');
+    const selectedText = window.getSelection().toString();
+    const textLength = selectedText.length;
+
+    if (selectedText === '') {
+      setTextNote((prevNote) => `${prevNote} ${symbol} ${symbol} `);
+      textArea.focus();
+    } else {
+      const matchingText = textNote.match(new RegExp(selectedText, 'g'));
+      if (matchingText.length > 1) {
+        setShow(true);
+        setTextNote((prevNote) => prevNote + ' ');
+      } else {
+        setTextNote((prevNote) => {
+          let newNote = prevNote;
+
+          const startIndex = newNote.indexOf(selectedText);
+          newNote = newNote.slice(0, startIndex) + `${symbol}${selectedText}${symbol}` + newNote.slice(startIndex + textLength, newNote.length);
+
+          textArea.focus();
+
+          return newNote;
+        });
+      }
+    }
+  }
+
   return (
     <div className="App">
       <aside>
-        <div className="heading">
-          <h1 className="title-heading">Notes</h1>
-          <button type="button" className="btn-show-modal" onClick={setShow.bind(null, true)}>
-            +
-          </button>
-        </div>
-        {show && <Modal title="Note Title" textInput="Type your note title here" inputVal={inputTextVal} handleInput={handleChange} onKeydown={handleKey} setShowHandle={setShow} onClickAccept={addNote} />}
+        <button className={'heading' + (show ? ' btn-selected' : '')} type="button" onClick={setShow.bind(null, true)}>
+          <h1 className="title-heading">New Note</h1>
+          <div className="btn-show-modal">+</div>
+        </button>
+        {show && modal}
         <ul>{noteList}</ul>
       </aside>
-      <Notes handleNoteChange={handleNoteChange} textNote={textNote} />
+      <Notes handleNoteChange={handleNoteChange} textNote={textNote} handleFont={fontEditorClicked} />
     </div>
   );
 }
