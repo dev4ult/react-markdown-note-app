@@ -1,4 +1,4 @@
-function Modal({ title, desc, textInput, onKeydown, onClickAccept, setShowHandle, handleInput, inputVal, btnHideModalText }) {
+function Modal({ title, desc, textInput, onKeydown, onClickAccept, btnAcceptModalText, setShowHandle, handleInput, inputVal, btnHideModalText }) {
   return (
     <div className="modal-container">
       <div className="modal">
@@ -8,7 +8,7 @@ function Modal({ title, desc, textInput, onKeydown, onClickAccept, setShowHandle
         <div>
           {true && onClickAccept ? (
             <button className="btn-add-note" onClick={onClickAccept}>
-              add
+              {btnAcceptModalText}
             </button>
           ) : (
             ''

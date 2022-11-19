@@ -13,9 +13,12 @@ button {
   user-select: none;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .heading {
   display: flex;
-  cursor: pointer;
   padding-inline: 1rem;
   align-items: center;
   margin-bottom: 1rem;
@@ -62,7 +65,8 @@ button {
   background-color: white;
   padding: 1.5rem;
   border-radius: 5px;
-  max-width: 80%;
+  width: fit-content;
+  max-width: 550px;
 }
 
 .modal-input-text {
@@ -96,7 +100,6 @@ button {
   font-size: 1rem;
   padding: 0.15rem 0.6rem;
   border-radius: 3px;
-  cursor: pointer;
   border: none;
   text-transform: capitalize;
 }
@@ -123,14 +126,33 @@ li {
   font-size: 1.2rem;
   border-radius: 3px;
   margin-block: 0.3rem;
-  cursor: pointer;
-  max-width: 200px;
+  max-width: 230px;
   width: 100%;
   text-align: left;
 }
 
 .note-tab-title:hover {
   background-color: rgb(238, 238, 238);
+}
+
+.edit-tab-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  border: none;
+}
+
+.edit-tab-btn:nth-child(1) {
+  margin-left: auto;
+}
+
+.edit-tab-btn:nth-child(2) {
+  margin-left: 0.3rem;
+}
+
+.edit-tab-btn img {
+  width: 20px;
 }
 
 .right-arrow {
@@ -155,7 +177,6 @@ li {
   padding-inline: 0.5rem;
   font-size: 1rem;
   line-height: 1.5;
-  cursor: pointer;
   background: none;
   border: none;
   border-radius: 3px;
@@ -166,6 +187,7 @@ li {
 }
 
 .btn-selected {
+  user-select: none;
   background-color: black;
   color: white;
   font-weight: 500;
@@ -184,7 +206,6 @@ li {
 .font-editor {
   display: flex;
   align-items: center;
-  cursor: pointer;
   border: none;
   background: none;
   border-radius: 3px;
