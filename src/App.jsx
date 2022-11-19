@@ -14,14 +14,21 @@ if (Storage !== undefined) {
 
 function App() {
   const [notes, setNotes] = useState([]);
-  const [selectedNote, setSelectedNote] = useState(1);
-
   const [textNote, setTextNote] = useState('');
 
   const [inputTextVal, setInputTextVal] = useState('');
 
   const [show, setShow] = useState(false);
+
+  const [modal, setModal] = useState(
+    <Modal title="Warning !" desc="If selected text is matching with more than one string. Please manually type the existing font editor to style your text" setShowHandle={setShow} btnHideModalText="Close" />
+  );
   const [modalType, setModalType] = useState('new-note-form');
+
+  function selectedIndex() {
+    const indexOfSelected = notes.map((note) => note.selected).indexOf(true);
+    return indexOfSelected;
+  }
 
   useEffect(() => {
     if (localStorage.getItem('notes') === null) {
@@ -36,7 +43,7 @@ function App() {
   useEffect(() => {
     if (notes.length > 0) {
       localStorage.setItem('notes', JSON.stringify(notes));
-      setTextNote(notes[selectedNote].text);
+      setTextNote(notes[selectedIndex()].text);
     }
   }, [notes]);
 
@@ -44,11 +51,11 @@ function App() {
     if (inputTextVal !== '') {
       setNotes((prevNotes) => {
         const newId = prevNotes.length == 0 ? 1 : prevNotes[prevNotes.length - 1].id + 1;
-        setSelectedNote(newId);
 
         notes.forEach((note) => {
           note.selected = false;
         });
+
         return [
           ...prevNotes,
           {
@@ -79,21 +86,36 @@ function App() {
     const { id } = e.target;
     const index = notes.map((note) => note.id).indexOf(parseInt(id));
 
-    setNotes((prevNotes) => {
-      const newNotes = prevNotes;
-      newNotes[selectedNote].selected = false;
-      newNotes[index].selected = true;
-      return [...newNotes];
-    });
+    if (index >= 0) {
+      setNotes((prevNotes) => {
+        const newNotes = prevNotes;
+        // newNotes[selectedIndex()].selected = false;
+        newNotes.forEach((note) => {
+          note.selected = false;
+        });
 
-    setSelectedNote(index);
-    setTextNote(notes[index].text);
+        newNotes[index].selected = true;
+        return [...newNotes];
+      });
+
+      setTextNote(notes[index].text);
+    }
   }
 
-  function editTitleNote() {}
-
   function deleteNote() {
-    setNotes((prevNote) => prevNote.splice(selectedNote, 1));
+    setNotes((prevNotes) => {
+      const newNotes = prevNotes;
+
+      newNotes.splice(selectedIndex(), 1);
+      if (newNotes.length !== 0) {
+        newNotes[0].selected = true;
+      } else {
+        localStorage.setItem('notes', JSON.stringify([]));
+      }
+
+      return [...newNotes];
+    });
+    setShow(false);
   }
 
   const noteList = notes.map((note) => {
@@ -103,12 +125,14 @@ function App() {
         {selected ? (
           <div className="note-tab-title btn-selected">
             {title}
-            <button type="button" className="edit-tab-btn cursor-pointer" onClick={editTitleNote}>
-              <img src="./src/assets/edit.svg" alt="Edit Button" />
-            </button>
-            <button type="button" className="edit-tab-btn cursor-pointer" onClick={deleteNote}>
-              <img src="./src/assets/delete.svg" alt="Delete Button" />
-            </button>
+            <div>
+              <button type="button" className="edit-tab-btn cursor-pointer">
+                <img src="./src/assets/edit.svg" alt="Edit Button" />
+              </button>
+              <button type="button" className="edit-tab-btn cursor-pointer" onClick={deleteNote}>
+                <img src="./src/assets/delete.svg" alt="Delete Button" />
+              </button>
+            </div>
           </div>
         ) : (
           <button type="button" className="note-tab-title cursor-pointer" onClick={toggleSelect} id={id}>
@@ -123,23 +147,27 @@ function App() {
     const { value } = e.target;
     setTextNote(value);
     setNotes((prevNotes) => {
-      const indexOfSelected = prevNotes.map((note) => note.selected).indexOf(true);
       const newNotes = prevNotes;
-      newNotes[indexOfSelected].text = value;
+      newNotes[selectedIndex()].text = value;
       return [...newNotes];
     });
   }
 
+  function showConfirmDelete() {
+    setModalType('confirm-delete');
+    setModal(<Modal title="Confirm Delete" desc="Are you sure you want to delete this note?" onClickAccept={deleteNote} btnAcceptModalText="Delete" setShowHandle={setShow} btnHideModalText="Cancel" />);
+    setShow(true);
+  }
+
   useEffect(() => {
-    if (textNote !== '') {
-      const textArea = document.querySelector('textarea');
+    const textArea = document.querySelector('textarea');
+    if (textNote !== '' && textArea !== null) {
       const { value } = textArea;
 
       setNotes((prevNotes) => {
-        const indexOfSelected = prevNotes.map((note) => note.selected).indexOf(true);
         const newNotes = prevNotes;
-        newNotes[indexOfSelected].text = value;
-        return [...newNotes];
+        newNotes[selectedIndex()].text = value;
+        return newNotes;
       });
     }
   }, [textNote]);
@@ -159,6 +187,7 @@ function App() {
       const matchingText = textNote.match(new RegExp(selectedText, 'g'));
       if (matchingText.length > 1) {
         setModalType('warning-sign');
+        setModal(<Modal title="Warning !" desc="If selected text is matching with more than one string. Please manually type the existing font editor to style your text" setShowHandle={setShow} btnHideModalText="Close" />);
         setShow(true);
       } else {
         setTextNote((prevTextNote) => {
@@ -188,6 +217,7 @@ function App() {
           <h1 className="title-heading">New Note</h1>
           <div className="btn-show-modal">+</div>
         </button>
+
         {show &&
           (modalType === 'new-note-form' ? (
             <Modal
@@ -202,7 +232,7 @@ function App() {
               btnHideModalText="Cancel"
             />
           ) : (
-            <Modal title="Warning !" desc="If selected text is matching with more than one string. Please manually type the existing font editor to style your text" setShowHandle={setShow} btnHideModalText="Close" />
+            modal
           ))}
         <ul>{noteList}</ul>
       </aside>
