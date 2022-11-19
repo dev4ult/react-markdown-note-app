@@ -62,6 +62,7 @@ button {
   background-color: white;
   padding: 1.5rem;
   border-radius: 5px;
+  max-width: 80%;
 }
 
 .modal-input-text {
@@ -213,6 +214,10 @@ li {
   width: 100%;
   max-width: 582.57px;
   height: 75vh;
+}
+
+.preview-note {
+  user-select: none;
 }
 
 .preview-note h1 {
