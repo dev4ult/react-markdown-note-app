@@ -73,7 +73,11 @@ function App() {
 
   function handleKey(e) {
     if (e.key == 'Enter') {
-      addNote();
+      if (e.target.className === 'input-edit-title') {
+        editTabTitle();
+      } else {
+        addNote();
+      }
     }
   }
 
@@ -102,6 +106,22 @@ function App() {
     }
   }
 
+  const [editTabMode, setEditTabMode] = useState(false);
+
+  function editTabTitle() {
+    setEditTabMode((prevMode) => {
+      if (prevMode && inputTextVal !== '') {
+        setNotes((prevNotes) => {
+          prevNotes[selectedIndex()].title = inputTextVal;
+          return [...prevNotes];
+        });
+        setInputTextVal('');
+      }
+
+      return !prevMode;
+    });
+  }
+
   function deleteNote() {
     setNotes((prevNotes) => {
       const newNotes = prevNotes;
@@ -124,15 +144,28 @@ function App() {
       <li key={id}>
         {selected ? (
           <div className="note-tab-title btn-selected">
-            {title}
-            <div>
-              <button type="button" className="edit-tab-btn cursor-pointer">
-                <img src="./src/assets/edit.svg" alt="Edit Button" />
-              </button>
-              <button type="button" className="edit-tab-btn cursor-pointer" onClick={deleteNote}>
-                <img src="./src/assets/delete.svg" alt="Delete Button" />
-              </button>
-            </div>
+            {editTabMode ? (
+              <>
+                <input type="text" className="input-edit-title" onChange={handleChange} onKeyDown={handleKey} value={inputTextVal} />
+                <button type="button" className="edit-tab-btn cursor-pointer" onClick={editTabTitle}>
+                  <img src="./src/assets/check.svg" alt="Check Button" />
+                </button>
+              </>
+            ) : (
+              title
+            )}
+            {editTabMode ? (
+              ''
+            ) : (
+              <div>
+                <button type="button" className="edit-tab-btn cursor-pointer">
+                  <img src="./src/assets/edit.svg" alt="Edit Button" onClick={editTabTitle} />
+                </button>
+                <button type="button" className="edit-tab-btn cursor-pointer" onClick={deleteNote}>
+                  <img src="./src/assets/delete.svg" alt="Delete Button" />
+                </button>
+              </div>
+            )}
           </div>
         ) : (
           <button type="button" className="note-tab-title cursor-pointer" onClick={toggleSelect} id={id}>
@@ -147,17 +180,16 @@ function App() {
     const { value } = e.target;
     setTextNote(value);
     setNotes((prevNotes) => {
-      const newNotes = prevNotes;
-      newNotes[selectedIndex()].text = value;
-      return [...newNotes];
+      prevNotes[selectedIndex()].text = value;
+      return [...prevNotes];
     });
   }
 
-  function showConfirmDelete() {
-    setModalType('confirm-delete');
-    setModal(<Modal title="Confirm Delete" desc="Are you sure you want to delete this note?" onClickAccept={deleteNote} btnAcceptModalText="Delete" setShowHandle={setShow} btnHideModalText="Cancel" />);
-    setShow(true);
-  }
+  // function showConfirmDelete() {
+  //   setModalType('confirm-delete');
+  //   setModal(<Modal title="Confirm Delete" desc="Are you sure you want to delete this note?" onClickAccept={deleteNote} btnAcceptModalText="Delete" setShowHandle={setShow} btnHideModalText="Cancel" />);
+  //   setShow(true);
+  // }
 
   useEffect(() => {
     const textArea = document.querySelector('textarea');
@@ -165,9 +197,8 @@ function App() {
       const { value } = textArea;
 
       setNotes((prevNotes) => {
-        const newNotes = prevNotes;
-        newNotes[selectedIndex()].text = value;
-        return newNotes;
+        prevNotes[selectedIndex()].text = value;
+        return [...prevNotes];
       });
     }
   }, [textNote]);
@@ -205,9 +236,9 @@ function App() {
 
   return (
     <div className="App">
-      <aside>
+      <aside className={notes.length !== 0 ? 'mr-1rem' : ''}>
         <button
-          className="heading cursor-pointer"
+          className={'heading cursor-pointer' + (notes.length !== 0 ? ' mb-1rem' : '')}
           type="button"
           onClick={function () {
             setModalType('new-note-form');
@@ -217,7 +248,6 @@ function App() {
           <h1 className="title-heading">New Note</h1>
           <div className="btn-show-modal">+</div>
         </button>
-
         {show &&
           (modalType === 'new-note-form' ? (
             <Modal
@@ -236,7 +266,7 @@ function App() {
           ))}
         <ul>{noteList}</ul>
       </aside>
-      <Notes handleNoteChange={handleNoteChange} textNote={textNote} handleFont={fontEditorClicked} />
+      {notes.length === 0 ? '' : <Notes handleNoteChange={handleNoteChange} textNote={textNote} handleFont={fontEditorClicked} />}
     </div>
   );
 }
