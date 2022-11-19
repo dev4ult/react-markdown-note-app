@@ -5,12 +5,16 @@
   border-radius: 5px;
 }
 
-aside {
+button {
+  user-select: none;
+}
+
+.mr-1rem {
   margin-right: 1rem;
 }
 
-button {
-  user-select: none;
+.mb-1rem {
+  margin-bottom: 1rem;
 }
 
 .cursor-pointer {
@@ -21,7 +25,6 @@ button {
   display: flex;
   padding-inline: 1rem;
   align-items: center;
-  margin-bottom: 1rem;
   background-color: white;
   padding-block: 0.5rem;
   width: fit-content;
@@ -133,6 +136,20 @@ li {
 
 .note-tab-title:hover {
   background-color: rgb(238, 238, 238);
+}
+
+.input-edit-title {
+  border: none;
+  background: none;
+  color: white;
+  font-size: 1rem;
+  padding-inline: 0.3rem;
+  border-bottom: 2px solid white;
+  width: 135px;
+}
+
+.input-edit-title:focus {
+  outline: none;
 }
 
 .note-tab-title div {
