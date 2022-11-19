@@ -135,6 +135,11 @@ li {
   background-color: rgb(238, 238, 238);
 }
 
+.note-tab-title div {
+  display: flex;
+  margin-left: auto;
+}
+
 .edit-tab-btn {
   display: flex;
   justify-content: center;
@@ -144,7 +149,7 @@ li {
 }
 
 .edit-tab-btn:nth-child(1) {
-  margin-left: auto;
+  margin-left: 1rem;
 }
 
 .edit-tab-btn:nth-child(2) {

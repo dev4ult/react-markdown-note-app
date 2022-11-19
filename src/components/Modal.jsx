@@ -7,14 +7,14 @@ function Modal({ title, desc, textInput, onKeydown, onClickAccept, btnAcceptModa
         {true && (textInput ? <input className="modal-input-text" type="text" placeholder={textInput} value={inputVal} onChange={handleInput} onKeyDown={onKeydown} name="text-input" /> : false)}
         <div>
           {true && onClickAccept ? (
-            <button className="btn-add-note" onClick={onClickAccept}>
+            <button className="btn-add-note cursor-pointer" onClick={onClickAccept}>
               {btnAcceptModalText}
             </button>
           ) : (
             ''
           )}
           {true && setShowHandle ? (
-            <button className="btn-hide-modal" type="button" onClick={setShowHandle.bind('', false)}>
+            <button className="btn-hide-modal cursor-pointer" type="button" onClick={setShowHandle.bind('', false)}>
               {btnHideModalText}
             </button>
           ) : (

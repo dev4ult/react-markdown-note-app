@@ -56,10 +56,10 @@ function Notes({ handleNoteChange, textNote, handleFont }) {
     <div className="Notes">
       <section className="toolbars">
         <div className="view-list">
-          <button type="button" className={'btn-view-note' + (previewMode ? '' : ' btn-selected')} name="btnWrite" onClick={toggleView}>
+          <button type="button" className={'btn-view-note' + (previewMode ? ' cursor-pointer' : ' btn-selected')} name="btnWrite" onClick={toggleView}>
             Write
           </button>
-          <button type="button" className={'btn-view-note' + (previewMode ? ' btn-selected' : '')} name="btnPreview" onClick={toggleView}>
+          <button type="button" className={'btn-view-note' + (previewMode ? ' btn-selected' : ' cursor-pointer')} name="btnPreview" onClick={toggleView}>
             Preview
           </button>
         </div>
