@@ -14,6 +14,8 @@ if (Storage !== undefined) {
 
 function App() {
   const [notes, setNotes] = useState([]);
+  const [selectedNote, setSelectedNote] = useState(1);
+
   const [textNote, setTextNote] = useState('');
 
   const [inputTextVal, setInputTextVal] = useState('');
@@ -34,8 +36,7 @@ function App() {
   useEffect(() => {
     if (notes.length > 0) {
       localStorage.setItem('notes', JSON.stringify(notes));
-      const indexOfSelected = notes.map((note) => note.selected).indexOf(true);
-      setTextNote(notes[indexOfSelected].text);
+      setTextNote(notes[selectedNote].text);
     }
   }, [notes]);
 
@@ -43,13 +44,18 @@ function App() {
     if (inputTextVal !== '') {
       setNotes((prevNotes) => {
         const newId = prevNotes.length == 0 ? 1 : prevNotes[prevNotes.length - 1].id + 1;
+        setSelectedNote(newId);
+
+        notes.forEach((note) => {
+          note.selected = false;
+        });
         return [
           ...prevNotes,
           {
             id: newId,
             title: inputTextVal,
             text: '',
-            selected: prevNotes.length == 0 ? true : false,
+            selected: true,
           },
         ];
       });
@@ -75,22 +81,40 @@ function App() {
 
     setNotes((prevNotes) => {
       const newNotes = prevNotes;
-      const indexOfPrevSelected = newNotes.map((note) => note.selected).indexOf(true);
-      newNotes[indexOfPrevSelected].selected = false;
+      newNotes[selectedNote].selected = false;
       newNotes[index].selected = true;
       return [...newNotes];
     });
 
+    setSelectedNote(index);
     setTextNote(notes[index].text);
+  }
+
+  function editTitleNote() {}
+
+  function deleteNote() {
+    setNotes((prevNote) => prevNote.splice(selectedNote, 1));
   }
 
   const noteList = notes.map((note) => {
     const { id, title, selected } = note;
     return (
-      <li>
-        <button className={'note-tab-title' + (selected ? ' btn-selected' : '')} key={title} id={id} onClick={toggleSelect}>
-          {title}
-        </button>
+      <li key={id}>
+        {selected ? (
+          <div className="note-tab-title btn-selected">
+            {title}
+            <button type="button" className="edit-tab-btn cursor-pointer" onClick={editTitleNote}>
+              <img src="./src/assets/edit.svg" alt="Edit Button" />
+            </button>
+            <button type="button" className="edit-tab-btn cursor-pointer" onClick={deleteNote}>
+              <img src="./src/assets/delete.svg" alt="Delete Button" />
+            </button>
+          </div>
+        ) : (
+          <button type="button" className="note-tab-title cursor-pointer" onClick={toggleSelect} id={id}>
+            {title}
+          </button>
+        )}
       </li>
     );
   });
@@ -154,7 +178,7 @@ function App() {
     <div className="App">
       <aside>
         <button
-          className="heading"
+          className="heading cursor-pointer"
           type="button"
           onClick={function () {
             setModalType('new-note-form');
@@ -166,7 +190,17 @@ function App() {
         </button>
         {show &&
           (modalType === 'new-note-form' ? (
-            <Modal title="New Note" textInput="Type your new note here" onKeydown={handleKey} onClickAccept={addNote} setShowHandle={setShow} handleInput={handleChange} inputVal={inputTextVal} btnHideModalText="Cancel" />
+            <Modal
+              title="New Note"
+              textInput="Type your new note here"
+              onKeydown={handleKey}
+              onClickAccept={addNote}
+              btnAcceptModalText="Add"
+              setShowHandle={setShow}
+              handleInput={handleChange}
+              inputVal={inputTextVal}
+              btnHideModalText="Cancel"
+            />
           ) : (
             <Modal title="Warning !" desc="If selected text is matching with more than one string. Please manually type the existing font editor to style your text" setShowHandle={setShow} btnHideModalText="Close" />
           ))}
