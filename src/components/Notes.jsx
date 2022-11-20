@@ -2,6 +2,18 @@ import { useState, useEffect } from 'react';
 import FontEditor from './FontEditor.jsx';
 import parse from 'html-react-parser';
 
+import headingIcon from '../assets/heading.svg';
+import boldIcon from '../assets/bold.svg';
+import italicIcon from '../assets/italic.svg';
+import strikethroughIcon from '../assets/strikethrough.svg';
+import hyperlinkIcon from '../assets/hyperlink.svg';
+import doublequoteIcon from '../assets/double-quote.svg';
+import codeIcon from '../assets/code.svg';
+import imageIcon from '../assets/image.svg';
+import bulletedlistIcon from '../assets/bulleted-list.svg';
+import numberedlistIcon from '../assets/numbered-list.svg';
+import checklistIcon from '../assets/check-list.svg';
+
 function Notes({ handleNoteChange, textNote, handleFont }) {
   const [previewMode, setViewMode] = useState(false);
   const [previewNote, setPreviewNote] = useState('doNotLetEmpty');
@@ -64,19 +76,19 @@ function Notes({ handleNoteChange, textNote, handleFont }) {
           </button>
         </div>
         <div className="editor-list">
-          <FontEditor name="Heading" svg="heading.svg" onClick={handleFont.bind(null, '#')} />
-          <FontEditor name="Bold" svg="bold.svg" onClick={handleFont.bind(null, '!')} />
-          <FontEditor name="Italic" svg="italic.svg" onClick={handleFont.bind(null, '_')} />
-          <FontEditor name="Strikethrough" svg="Strikethrough.svg" onClick={handleFont.bind(null, '~')} />
-          <FontEditor name="Hyperlink" svg="hyperlink.svg" />
-          <FontEditor name="Double-quote" svg="double-quote.svg" />
-          <FontEditor name="Code" svg="code.svg" />
-          <FontEditor name="Image" svg="image.svg" />
+          <FontEditor name="Heading" src={headingIcon} onClick={handleFont.bind(null, '#')} />
+          <FontEditor name="Bold" src={boldIcon} onClick={handleFont.bind(null, '!')} />
+          <FontEditor name="Italic" src={italicIcon} onClick={handleFont.bind(null, '_')} />
+          <FontEditor name="Strikethrough" src={strikethroughIcon} onClick={handleFont.bind(null, '~')} />
+          <FontEditor name="Hyperlink" src={hyperlinkIcon} />
+          <FontEditor name="Double-quote" src={doublequoteIcon} />
+          <FontEditor name="Code" src={codeIcon} />
+          <FontEditor name="Image" src={imageIcon} />
         </div>
         <div className="editor-list">
-          <FontEditor name="Bulleted List" svg="bulleted-list.svg" />
-          <FontEditor name="Numbered List" svg="numbered-list.svg" />
-          <FontEditor name="Check List" svg="check-list.svg" />
+          <FontEditor name="Bulleted List" src={bulletedlistIcon} />
+          <FontEditor name="Numbered List" src={numberedlistIcon} />
+          <FontEditor name="Check List" src={checklistIcon} />
         </div>
       </section>
       <section className="note-view">{previewMode ? <div className="preview-note">{previewNote}</div> : <textarea className="write-note" onChange={handleNoteChange} value={textNote}></textarea>}</section>

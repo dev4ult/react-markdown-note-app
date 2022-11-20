@@ -1,7 +1,7 @@
-function FontEditor({ name, svg, onClick }) {
+function FontEditor({ name, src, onClick }) {
   return (
     <button type="button" className="font-editor cursor-pointer" onClick={onClick}>
-      <img src={'./src/assets/' + svg} alt={name + ' logo'} className="editor-img" />
+      <img src={src} alt={name + ' logo'} className="editor-img" />
     </button>
   );
 }

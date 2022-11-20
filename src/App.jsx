@@ -3,6 +3,10 @@ import './App.css';
 import Notes from './components/Notes.jsx';
 import Modal from './components/Modal.jsx';
 
+import deleteIcon from './assets/delete.svg';
+import editIcon from './assets/edit.svg';
+import checkIcon from './assets/check.svg';
+
 // checking storage availability
 if (Storage !== undefined) {
   if (localStorage.getItem('notes') === null) {
@@ -148,7 +152,7 @@ function App() {
               <>
                 <input type="text" className="input-edit-title" onChange={handleChange} onKeyDown={handleKey} value={inputTextVal} />
                 <button type="button" className="edit-tab-btn cursor-pointer" onClick={editTabTitle}>
-                  <img src="./src/assets/check.svg" alt="Check Button" />
+                  <img src={checkIcon} alt="Check Button" />
                 </button>
               </>
             ) : (
@@ -159,10 +163,10 @@ function App() {
             ) : (
               <div>
                 <button type="button" className="edit-tab-btn cursor-pointer">
-                  <img src="./src/assets/edit.svg" alt="Edit Button" onClick={editTabTitle} />
+                  <img src={editIcon} alt="Edit Button" onClick={editTabTitle} />
                 </button>
                 <button type="button" className="edit-tab-btn cursor-pointer" onClick={deleteNote}>
-                  <img src="./src/assets/delete.svg" alt="Delete Button" />
+                  <img src={deleteIcon} alt="Delete Button" />
                 </button>
               </div>
             )}
