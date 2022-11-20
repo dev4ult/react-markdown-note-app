@@ -122,6 +122,8 @@ li {
 
 .note-tab-title {
   display: flex;
+  justify-content: space-between;
+  gap: 1rem;
   align-items: center;
   padding: 0.7rem;
   background: none;
@@ -129,9 +131,9 @@ li {
   font-size: 1.2rem;
   border-radius: 3px;
   margin-block: 0.3rem;
-  max-width: 230px;
-  width: 100%;
+  width: 200px;
   text-align: left;
+  word-break: break-word;
 }
 
 .note-tab-title:hover {
@@ -145,16 +147,20 @@ li {
   font-size: 1rem;
   padding-inline: 0.3rem;
   border-bottom: 2px solid white;
-  width: 135px;
+  width: 100%;
 }
 
 .input-edit-title:focus {
   outline: none;
 }
 
-.note-tab-title div {
+.edit-tab-title {
   display: flex;
+  justify-content: center;
+  align-items: center;
   margin-left: auto;
+  gap: 4px;
+  flex-wrap: wrap;
 }
 
 .edit-tab-btn {
@@ -163,14 +169,6 @@ li {
   align-items: center;
   background: none;
   border: none;
-}
-
-.edit-tab-btn:nth-child(1) {
-  margin-left: 1rem;
-}
-
-.edit-tab-btn:nth-child(2) {
-  margin-left: 0.3rem;
 }
 
 .edit-tab-btn img {

@@ -161,7 +161,7 @@ function App() {
             {editTabMode ? (
               ''
             ) : (
-              <div>
+              <div className="edit-tab-title">
                 <button type="button" className="edit-tab-btn cursor-pointer">
                   <img src={editIcon} alt="Edit Button" onClick={editTabTitle} />
                 </button>
