@@ -85,6 +85,16 @@ function App() {
     }
   }
 
+  function handleKeyNote(e) {
+    const { selectionStart } = e.target;
+    if (e.key == 'Tab') {
+      setTextNote((prevNote) => {
+        return prevNote.slice(0, selectionStart) + '\t' + prevNote.slice(selectionStart, prevNote.length);
+      });
+      e.preventDefault();
+    }
+  }
+
   function handleChange(e) {
     const { value } = e.target;
     setInputTextVal(value);
@@ -270,7 +280,7 @@ function App() {
           ))}
         <ul>{noteList}</ul>
       </aside>
-      {notes.length === 0 ? '' : <Notes handleNoteChange={handleNoteChange} textNote={textNote} handleFont={fontEditorClicked} />}
+      {notes.length === 0 ? '' : <Notes handleNoteChange={handleNoteChange} textNote={textNote} handleFont={fontEditorClicked} onKeydownNote={handleKeyNote} />}
     </div>
   );
 }
