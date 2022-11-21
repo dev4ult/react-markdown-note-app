@@ -253,7 +253,7 @@ li {
   font-size: 1.2rem;
   resize: none;
   width: 100%;
-  max-width: 582.57px;
+  max-width: 583px;
   height: 75vh;
 }
 
@@ -263,6 +263,20 @@ li {
 
 .preview-note h1 {
   display: inline;
+}
+
+.preview-note q {
+  font-style: italic;
+}
+
+.preview-note code {
+  font-family: consolas;
+}
+
+.code {
+  padding: 0.5rem;
+  width: fit-content;
+  background-color: rgb(231, 231, 231);
 }
 
 .write-note:focus {
