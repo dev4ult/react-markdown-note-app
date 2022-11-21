@@ -14,7 +14,7 @@ import bulletedlistIcon from '../assets/bulleted-list.svg';
 import numberedlistIcon from '../assets/numbered-list.svg';
 import checklistIcon from '../assets/check-list.svg';
 
-function Notes({ handleNoteChange, textNote, handleFont }) {
+function Notes({ handleNoteChange, textNote, handleFont, onKeydownNote }) {
   const [previewMode, setViewMode] = useState(false);
   const [previewNote, setPreviewNote] = useState('doNotLetEmpty');
 
@@ -22,6 +22,9 @@ function Notes({ handleNoteChange, textNote, handleFont }) {
     setPreviewNote(() => {
       // changing new line into <br />
       let newNote = textNote.replace(/\n/g, '<br />');
+
+      // changing tab into &ensp;
+      newNote = newNote.replace(/\t/g, '&ensp;&ensp;');
 
       function convertSymbolToTag(symbol, tag) {
         const globalRegEx = new RegExp(symbol, 'g');
@@ -38,9 +41,9 @@ function Notes({ handleNoteChange, textNote, handleFont }) {
 
         for (let i = 0; i < totalSymbol; i++) {
           if (i % 2 === 0) {
-            newNote = newNote.replace(regEx, `<${tag}>`);
+            newNote = newNote.replace(regEx, symbol === '%' ? `<div className='code'><${tag}>` : `<${tag}>`);
           } else {
-            newNote = newNote.replace(regEx, `</${tag}>`);
+            newNote = newNote.replace(regEx, symbol === '%' ? `</div></${tag}>` : `</${tag}>`);
           }
         }
       }
@@ -50,6 +53,8 @@ function Notes({ handleNoteChange, textNote, handleFont }) {
       convertSymbolToTag('!', 'b');
       convertSymbolToTag('_', 'i');
       convertSymbolToTag('~', 's');
+      convertSymbolToTag('"', 'q');
+      convertSymbolToTag('%', 'code');
 
       return newNote;
     });
@@ -81,8 +86,8 @@ function Notes({ handleNoteChange, textNote, handleFont }) {
           <FontEditor name="Italic" src={italicIcon} onClick={handleFont.bind(null, '_')} />
           <FontEditor name="Strikethrough" src={strikethroughIcon} onClick={handleFont.bind(null, '~')} />
           <FontEditor name="Hyperlink" src={hyperlinkIcon} />
-          <FontEditor name="Double-quote" src={doublequoteIcon} />
-          <FontEditor name="Code" src={codeIcon} />
+          <FontEditor name="Double-quote" src={doublequoteIcon} onClick={handleFont.bind(null, '"')} />
+          <FontEditor name="Code" src={codeIcon} onClick={handleFont.bind(null, '%')} />
           <FontEditor name="Image" src={imageIcon} />
         </div>
         <div className="editor-list">
@@ -91,7 +96,7 @@ function Notes({ handleNoteChange, textNote, handleFont }) {
           <FontEditor name="Check List" src={checklistIcon} />
         </div>
       </section>
-      <section className="note-view">{previewMode ? <div className="preview-note">{previewNote}</div> : <textarea className="write-note" onChange={handleNoteChange} value={textNote}></textarea>}</section>
+      <section className="note-view">{previewMode ? <div className="preview-note">{previewNote}</div> : <textarea className="write-note" onChange={handleNoteChange} onKeyDown={onKeydownNote} value={textNote}></textarea>}</section>
     </div>
   );
 }
