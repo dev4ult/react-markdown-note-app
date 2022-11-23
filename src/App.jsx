@@ -230,7 +230,15 @@ function App() {
     if (selectedText === '') {
       setTextNote((prevNote) => {
         if (symbol.length > 1) {
-          return symbol === 'bullet' ? prevNote + ' ' + '- first task' : prevNote + ' ' + '1. first task';
+          function createList(listStyle) {
+            return typeof listStyle === 'number'
+              ? '1. first task\n2. second task\n3. third task'
+              : listStyle === '-'
+              ? `${listStyle} first task\n${listStyle} second task\n${listStyle} third task`
+              : `${listStyle}first task${listStyle}\n${listStyle}second task${listStyle}\n${listStyle}third task${listStyle}`;
+          }
+
+          return symbol === 'bullet' ? `${prevNote}${createList('-')}` : symbol === 'number' ? `${prevNote}${createList(1)}` : `${prevNote}${createList('&')}`;
         } else {
           return prevNote + ' ' + symbol + symbol;
         }
@@ -265,7 +273,7 @@ function App() {
         title="Documentation"
         desc={
           <>
-            <h3 className="weight-500">About</h3>
+            <h3>About</h3>
             <p>
               Note Act is a Markdown Note App created with React.js by{' '}
               <a href="https://github.com/dev4ult" target="_blank">
@@ -276,9 +284,9 @@ function App() {
                 here
               </a>
             </p>
-            <h3 className="weight-500">How to use?</h3>
+            <h3 className="mt-12px">How to use?</h3>
             <p>By selecting first the word in your write note, you can click one of the font editor button at the top of the write or preview section</p>
-            <h3 className="weight-500">Alternative</h3>
+            <h3 className="mt-12px">Alternative</h3>
             <p>You can manually type the font editor to style your text like one of below :</p>
             <ul>
               <li>
