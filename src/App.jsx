@@ -223,34 +223,62 @@ function App() {
     }
     const textArea = document.querySelector('textarea');
     const selectedText = window.getSelection().toString();
-    const textLength = selectedText.length;
+    const startIndex = textArea.selectionStart;
+    const endIndex = textArea.selectionEnd;
 
     if (selectedText === '') {
       setTextNote((prevNote) => `${prevNote} ${symbol}${symbol} `);
       textArea.focus();
     } else {
-      const matchingText = textNote.match(new RegExp(selectedText, 'g'));
-      if (matchingText.length > 1) {
-        setModalType('warning-sign');
-        setModal(<Modal title="Warning !" desc="If selected text is matching with more than one string. Please manually type the existing font editor to style your text" setShowHandle={setShow} btnHideModalText="Close" />);
-        setShow(true);
-      } else {
-        setTextNote((prevTextNote) => {
-          let newNote = prevTextNote;
+      setTextNote((prevTextNote) => {
+        let newNote = prevTextNote;
 
-          const startIndex = newNote.indexOf(selectedText);
-          newNote = newNote.slice(0, startIndex) + `${symbol}${selectedText}${symbol}` + newNote.slice(startIndex + textLength, newNote.length);
+        newNote = newNote.slice(0, startIndex) + `${symbol}${selectedText}${symbol}` + newNote.slice(endIndex, newNote.length);
 
-          textArea.focus();
-          return newNote;
-        });
-      }
+        textArea.setSelectionRange(startIndex, endIndex);
+        textArea.focus();
+
+        return newNote;
+      });
+
+      // const matchingText = textNote.match(new RegExp(selectedText, 'g'));
+      // if (matchingText.length > 1) {
+      //   setModalType('warning-sign');
+      //   setModal(<Modal title="Warning !" desc="If selected text is matching with more than one string. Please manually type the existing font editor to style your text" setShowHandle={setShow} btnHideModalText="Close" />);
+      //   setShow(true);
+      // } else {
+
+      // }
     }
+  }
+
+  function showDoc() {
+    setModal(
+      <Modal
+        title="Documentation"
+        desc={
+          <>
+            <h2>Font styling with</h2>
+          </>
+        }
+        setShowHandle={setShow}
+        btnHideModalText="Close"
+      />
+    );
+    setModalType('documentation');
+    setShow(true);
   }
 
   return (
     <div className="App">
-      <aside className={notes.length !== 0 ? 'mr-1rem' : ''}>
+      <aside className={notes.length !== 0 ? 'mr-1rem' : 'flex'}>
+        {notes.length === 0 ? (
+          <button className="heading btn-selected cursor-pointer title-heading" onClick={showDoc}>
+            Doc
+          </button>
+        ) : (
+          ''
+        )}
         <button
           className={'heading cursor-pointer' + (notes.length !== 0 ? ' mb-1rem' : '')}
           type="button"
