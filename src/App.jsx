@@ -221,13 +221,20 @@ function App() {
     if (!document.querySelector('textarea')) {
       return;
     }
+
     const textArea = document.querySelector('textarea');
     const selectedText = window.getSelection().toString();
     const startIndex = textArea.selectionStart;
     const endIndex = textArea.selectionEnd;
 
     if (selectedText === '') {
-      setTextNote((prevNote) => `${prevNote} ${symbol}${symbol} `);
+      setTextNote((prevNote) => {
+        if (symbol.length > 1) {
+          return symbol === 'bullet' ? prevNote + ' ' + '- first task' : prevNote + ' ' + '1. first task';
+        } else {
+          return prevNote + ' ' + symbol + symbol;
+        }
+      });
       textArea.focus();
     } else {
       setTextNote((prevTextNote) => {
@@ -258,7 +265,33 @@ function App() {
         title="Documentation"
         desc={
           <>
-            <h2>Font styling with</h2>
+            <h3 className="weight-500">About</h3>
+            <p>
+              Note Act is a Markdown Note App created with React.js by{' '}
+              <a href="https://github.com/dev4ult" target="_blank">
+                Nibras Alyassar
+              </a>{' '}
+              and it is open source, you can find the repositories{' '}
+              <a href="https://github.com/dev4ult/react-note-app" target="_blank">
+                here
+              </a>
+            </p>
+            <h3 className="weight-500">How to use?</h3>
+            <p>By selecting first the word in your write note, you can click one of the font editor button at the top of the write or preview section</p>
+            <h3 className="weight-500">Alternative</h3>
+            <p>You can manually type the font editor to style your text like one of below :</p>
+            <ul>
+              <li>
+                <b>bold</b> == !bold! - exclamation mark
+              </li>
+              <li>
+                <i>italic</i> == _italic_ - underscore
+              </li>
+              <li>
+                <s>strikethrough</s> == ~strikethrough~ - underscore
+              </li>
+              <li>etc...</li>
+            </ul>
           </>
         }
         setShowHandle={setShow}
@@ -271,10 +304,10 @@ function App() {
 
   return (
     <div className="App">
-      <aside className={notes.length !== 0 ? 'mr-1rem' : 'flex'}>
+      <aside className={notes.length !== 0 ? '' : 'flex'}>
         {notes.length === 0 ? (
           <button className="heading btn-selected cursor-pointer title-heading" onClick={showDoc}>
-            Doc
+            Doc...
           </button>
         ) : (
           ''
@@ -306,9 +339,17 @@ function App() {
           ) : (
             modal
           ))}
-        <ul>{noteList}</ul>
+        <ul className="tab-title-list">{noteList}</ul>
       </aside>
-      {notes.length === 0 ? '' : <Notes handleNoteChange={handleNoteChange} textNote={textNote} handleFont={fontEditorClicked} onKeydownNote={handleKeyNote} />}
+
+      {notes.length === 0 ? (
+        ''
+      ) : (
+        <>
+          <div className="bg-shadow"></div>
+          <Notes handleNoteChange={handleNoteChange} textNote={textNote} handleFont={fontEditorClicked} onKeydownNote={handleKeyNote} showDoc={showDoc} />
+        </>
+      )}
     </div>
   );
 }
