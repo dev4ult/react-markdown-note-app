@@ -5,9 +5,8 @@
   border-radius: 5px;
 }
 
-.weight-500 {
-  margin-top: 0.5rem;
-  font-weight: 500;
+.mt-12px {
+  margin-top: 0.8rem;
 }
 
 button {
@@ -63,6 +62,7 @@ button {
 
 .modal-container {
   position: absolute;
+  z-index: 1;
   top: 0;
   bottom: 0;
   right: 0;
@@ -85,6 +85,7 @@ button {
 }
 
 .modal {
+  user-select: none;
   background-color: white;
   padding: 1.5rem;
   border-radius: 5px;
@@ -101,10 +102,6 @@ button {
   100% {
     transform: scale(1);
   }
-}
-
-.modal-desc {
-  user-select: none;
 }
 
 .modal-input-text {
@@ -339,6 +336,38 @@ q {
 
 code {
   font-family: consolas;
+}
+
+.checkbox-container {
+  position: relative;
+}
+
+.checkbox {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.checkmark {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  width: 20px;
+  height: 20px;
+  border: 2px solid black;
+}
+
+span.text {
+  margin-left: 1.6rem;
+}
+
+.checkbox:checked ~ span.text {
+  text-decoration: line-through;
+}
+
+.checkbox:checked ~ .checkmark {
+  background-color: black;
 }
 
 .code-container {

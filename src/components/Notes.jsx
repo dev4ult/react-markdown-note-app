@@ -41,9 +41,12 @@ function Notes({ handleNoteChange, textNote, handleFont, onKeydownNote, showDoc 
 
         for (let i = 0; i < totalSymbol; i++) {
           if (i % 2 === 0) {
-            newNote = newNote.replace(regEx, symbol === '%' ? `<div className='code'><${tag}>` : `<${tag}>`);
+            newNote = newNote.replace(
+              regEx,
+              symbol === '%' ? `<div class='code'><${tag}>` : symbol === '&' ? `<label for='cb-${i}' class='checkbox-container'><${tag} id='cb-${i}' name='cb-${i}' class='checkbox' /> <span class='text'>` : `<${tag}>`
+            );
           } else {
-            newNote = newNote.replace(regEx, symbol === '%' ? `</div></${tag}>` : `</${tag}>`);
+            newNote = newNote.replace(regEx, symbol === '%' ? `</div></${tag}>` : symbol === '&' ? `</span><span class='checkmark'></span></label>` : `</${tag}>`);
           }
         }
       }
@@ -55,6 +58,7 @@ function Notes({ handleNoteChange, textNote, handleFont, onKeydownNote, showDoc 
       convertSymbolToTag('~', 's');
       convertSymbolToTag('"', 'q');
       convertSymbolToTag('%', 'code');
+      convertSymbolToTag('&', 'input type="checkbox"');
 
       return newNote;
     });
