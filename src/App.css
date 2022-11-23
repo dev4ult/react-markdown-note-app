@@ -9,6 +9,10 @@ button {
   user-select: none;
 }
 
+.flex {
+  display: flex;
+}
+
 .mr-1rem {
   margin-right: 1rem;
 }
@@ -249,34 +253,51 @@ li {
 .preview-note {
   display: block;
   border: 1px solid black;
-  padding: 1rem;
   font-size: 1.2rem;
   resize: none;
   width: 100%;
-  max-width: 583px;
   height: 75vh;
+  word-break: break-word;
+  background: white;
+  padding: 1rem;
+}
+
+@media (min-width: 840px) {
+  .write-note,
+  .preview-note {
+    width: 583px;
+  }
 }
 
 .preview-note {
   user-select: none;
+  overflow-y: auto;
 }
 
 .preview-note h1 {
   display: inline;
 }
 
-.preview-note q {
+q {
   font-style: italic;
 }
 
-.preview-note code {
+code {
   font-family: consolas;
 }
 
-.code {
+.code-container {
   padding: 0.5rem;
   width: fit-content;
   background-color: rgb(231, 231, 231);
+}
+
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: black;
 }
 
 .write-note:focus {
