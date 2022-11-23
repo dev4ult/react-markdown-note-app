@@ -16,7 +16,7 @@ function Modal({ title, desc, textInput, onKeydown, onClickAccept, btnAcceptModa
             ''
           )}
           {true && setShowHandle ? (
-            <button className="btn-hide-modal cursor-pointer" type="button" onClick={setShowHandle.bind('', false)}>
+            <button className="btn-hide-modal cursor-pointer btn-view-note" type="button" onClick={setShowHandle.bind('', false)}>
               {btnHideModalText}
             </button>
           ) : (

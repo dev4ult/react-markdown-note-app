@@ -5,6 +5,11 @@
   border-radius: 5px;
 }
 
+.weight-500 {
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+
 button {
   user-select: none;
 }
@@ -66,6 +71,17 @@ button {
   justify-content: center;
   align-items: center;
   background-color: rgba(139, 139, 139, 0.5);
+  animation-name: modal-fade;
+  animation-duration: 150ms;
+}
+
+@keyframes modal-fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .modal {
@@ -74,10 +90,25 @@ button {
   border-radius: 5px;
   width: fit-content;
   max-width: 550px;
+  animation-name: modal-popup;
+  animation-duration: 150ms;
+}
+
+@keyframes modal-popup {
+  0% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.modal-desc {
+  user-select: none;
 }
 
 .modal-input-text {
-  margin-block: 0.8rem;
+  margin-top: 0.8rem;
   border: none;
   border-bottom: 2px solid black;
   padding-inline: 6px;
@@ -95,6 +126,10 @@ button {
   display: flex;
   gap: 4px;
   margin-top: 1rem;
+}
+
+.modal .modal-desc {
+  display: block;
 }
 
 .modal-title {
@@ -122,6 +157,12 @@ button {
 
 li {
   list-style: none;
+}
+
+.tab-title-list {
+  max-height: 72%;
+  overflow-y: auto;
+  padding-right: 1rem;
 }
 
 .note-tab-title {
@@ -195,6 +236,20 @@ li {
 .view-list {
   display: flex;
   gap: 4px;
+}
+
+.doc-container {
+  padding: 0.6rem 0 0 0.6rem;
+}
+
+.bg-shadow {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: rgba(139, 139, 139, 0.5);
 }
 
 .btn-view-note {

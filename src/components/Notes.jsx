@@ -14,7 +14,7 @@ import bulletedlistIcon from '../assets/bulleted-list.svg';
 import numberedlistIcon from '../assets/numbered-list.svg';
 import checklistIcon from '../assets/check-list.svg';
 
-function Notes({ handleNoteChange, textNote, handleFont, onKeydownNote }) {
+function Notes({ handleNoteChange, textNote, handleFont, onKeydownNote, showDoc }) {
   const [previewMode, setViewMode] = useState(false);
   const [previewNote, setPreviewNote] = useState('doNotLetEmpty');
 
@@ -91,12 +91,17 @@ function Notes({ handleNoteChange, textNote, handleFont, onKeydownNote }) {
           <FontEditor name="Image" src={imageIcon} />
         </div>
         <div className="editor-list">
-          <FontEditor name="Bulleted List" src={bulletedlistIcon} />
-          <FontEditor name="Numbered List" src={numberedlistIcon} />
-          <FontEditor name="Check List" src={checklistIcon} />
+          <FontEditor name="Bulleted List" src={bulletedlistIcon} onClick={handleFont.bind(null, 'bullet')} />
+          <FontEditor name="Numbered List" src={numberedlistIcon} onClick={handleFont.bind(null, 'number')} />
+          <FontEditor name="Check List" src={checklistIcon} onClick={handleFont.bind(null, 'checklist')} />
         </div>
       </section>
       <section className="note-view">{previewMode ? <div className="preview-note">{previewNote}</div> : <textarea className="write-note" onChange={handleNoteChange} onKeyDown={onKeydownNote} value={textNote}></textarea>}</section>
+      <div className="doc-container">
+        <button className="btn-view-note cursor-pointer" onClick={showDoc}>
+          Documentation
+        </button>
+      </div>
     </div>
   );
 }
