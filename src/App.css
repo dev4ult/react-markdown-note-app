@@ -1,5 +1,16 @@
-body {
-  background-color: rgba(174, 174, 174, 0.5);
+main {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.bg-white-transparent {
+  background-color: rgba(197, 197, 197, 0.5);
 }
 
 .App {
@@ -17,6 +28,10 @@ body {
 
 .mt-12px {
   margin-top: 0.8rem;
+}
+
+.inner-aside {
+  gap: 8px;
 }
 
 .burger-btn,
@@ -58,6 +73,11 @@ button {
   font-size: 1.35rem;
   font-weight: 500;
   margin-right: 0.8rem;
+}
+
+.doc-btn {
+  font-size: 1.35rem;
+  font-weight: 500;
 }
 
 .heading:hover {
@@ -427,6 +447,14 @@ span.text {
     margin-top: 0.3rem;
   }
 
+  .left-0 {
+    left: 0;
+  }
+
+  .flex-col {
+    flex-direction: column;
+  }
+
   aside {
     position: fixed;
     top: 0;
@@ -440,8 +468,20 @@ span.text {
 
   .inner-aside {
     background-color: white;
+    height: 100%;
     width: fit-content;
     padding: 1rem;
+  }
+
+  .full-aside button.heading {
+    width: 190px;
+  }
+
+  .full-aside {
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
   }
 
   .tab-title-list {
