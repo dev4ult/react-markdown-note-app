@@ -217,7 +217,7 @@ function App() {
     }
   }, [textNote]);
 
-  function fontEditorClicked(symbol) {
+  function fontEditorClicked(symbol, attribute) {
     if (!document.querySelector('textarea')) {
       return;
     }
@@ -227,43 +227,45 @@ function App() {
     const startIndex = textArea.selectionStart;
     const endIndex = textArea.selectionEnd;
 
-    if (selectedText === '') {
+    if (symbol.length > 2) {
       setTextNote((prevNote) => {
-        if (symbol.length > 1) {
-          function createList(listStyle) {
-            return typeof listStyle === 'number'
-              ? '1. first task\n2. second task\n3. third task'
-              : listStyle === '-'
-              ? `${listStyle} first task\n${listStyle} second task\n${listStyle} third task`
-              : `${listStyle}first task${listStyle}\n${listStyle}second task${listStyle}\n${listStyle}third task${listStyle}`;
-          }
-
-          return symbol === 'bullet' ? `${prevNote}${createList('-')}` : symbol === 'number' ? `${prevNote}${createList(1)}` : `${prevNote}${createList('&')}`;
-        } else {
-          return prevNote + ' ' + symbol + symbol;
+        function createList(listStyle) {
+          return typeof listStyle === 'number'
+            ? '1. first task\n2. second task\n3. third task'
+            : listStyle === '-'
+            ? `${listStyle} first task\n${listStyle} second task\n${listStyle} third task`
+            : `${listStyle}first task${listStyle}\n${listStyle}second task${listStyle}\n${listStyle}third task${listStyle}`;
         }
+
+        return prevNote + (symbol === 'bullet' ? createList('-') : symbol === 'number' ? createList(1) : createList('&'));
       });
-      textArea.focus();
     } else {
-      setTextNote((prevTextNote) => {
-        let newNote = prevTextNote;
-
-        newNote = newNote.slice(0, startIndex) + `${symbol}${selectedText}${symbol}` + newNote.slice(endIndex, newNote.length);
-
-        textArea.setSelectionRange(startIndex, endIndex);
+      if (selectedText === '') {
+        setTextNote((prevNote) => {
+          return prevNote + symbol + (attribute !== '' ? 'words ' + attribute + '=put_link_here' : '') + symbol;
+        });
         textArea.focus();
+      } else {
+        setTextNote((prevTextNote) => {
+          let newNote = prevTextNote;
 
-        return newNote;
-      });
+          newNote = newNote.slice(0, startIndex) + symbol + selectedText + (attribute !== '' ? ' ' + attribute + '=put_link_here' : '') + symbol + newNote.slice(endIndex, newNote.length);
 
-      // const matchingText = textNote.match(new RegExp(selectedText, 'g'));
-      // if (matchingText.length > 1) {
-      //   setModalType('warning-sign');
-      //   setModal(<Modal title="Warning !" desc="If selected text is matching with more than one string. Please manually type the existing font editor to style your text" setShowHandle={setShow} btnHideModalText="Close" />);
-      //   setShow(true);
-      // } else {
+          textArea.setSelectionRange(startIndex, endIndex);
+          textArea.focus();
 
-      // }
+          return newNote;
+        });
+
+        // const matchingText = textNote.match(new RegExp(selectedText, 'g'));
+        // if (matchingText.length > 1) {
+        //   setModalType('warning-sign');
+        //   setModal(<Modal title="Warning !" desc="If selected text is matching with more than one string. Please manually type the existing font editor to style your text" setShowHandle={setShow} btnHideModalText="Close" />);
+        //   setShow(true);
+        // } else {
+
+        // }
+      }
     }
   }
 
@@ -290,13 +292,16 @@ function App() {
             <p>You can manually type the font editor to style your text like one of below :</p>
             <ul>
               <li>
-                <b>bold</b> == !bold! - exclamation mark
+                <b>bold</b> using @bold@ - at sign
               </li>
               <li>
-                <i>italic</i> == _italic_ - underscore
+                <u>underline</u> using _underline_ - underscore
               </li>
               <li>
-                <s>strikethrough</s> == ~strikethrough~ - underscore
+                <i>italic</i> using !italic! - exclamation mark
+              </li>
+              <li>
+                <s>strikethrough</s> using ~strikethrough~ - tilde
               </li>
               <li>etc...</li>
             </ul>

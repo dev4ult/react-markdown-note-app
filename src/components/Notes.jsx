@@ -9,7 +9,7 @@ import strikethroughIcon from '../assets/strikethrough.svg';
 import hyperlinkIcon from '../assets/hyperlink.svg';
 import doublequoteIcon from '../assets/double-quote.svg';
 import codeIcon from '../assets/code.svg';
-import imageIcon from '../assets/image.svg';
+import underlineIcon from '../assets/underline.svg';
 import bulletedlistIcon from '../assets/bulleted-list.svg';
 import numberedlistIcon from '../assets/numbered-list.svg';
 import checklistIcon from '../assets/check-list.svg';
@@ -26,7 +26,7 @@ function Notes({ handleNoteChange, textNote, handleFont, onKeydownNote, showDoc 
       // changing tab into &ensp;
       newNote = newNote.replace(/\t/g, '&ensp;&ensp;');
 
-      function convertSymbolToTag(symbol, tag) {
+      function convertSymbolToTag(symbol, tag, optionalTag, attribute) {
         const globalRegEx = new RegExp(symbol, 'g');
         const regEx = new RegExp(symbol, '');
 
@@ -43,22 +43,27 @@ function Notes({ handleNoteChange, textNote, handleFont, onKeydownNote, showDoc 
           if (i % 2 === 0) {
             newNote = newNote.replace(
               regEx,
-              symbol === '%' ? `<div class='code'><${tag}>` : symbol === '&' ? `<label for='cb-${i}' class='checkbox-container'><${tag} id='cb-${i}' name='cb-${i}' class='checkbox' /> <span class='text'>` : `<${tag}>`
+              symbol === '%'
+                ? `<${optionalTag} ${attribute}><${tag}>`
+                : symbol === '&'
+                ? `<${optionalTag} for='cb-${i}' class='checkbox-container'><${tag} id='cb-${i}' name='cb-${i}' class='checkbox' /> <span class='text'>`
+                : `<${tag} ${attribute}>`
             );
           } else {
-            newNote = newNote.replace(regEx, symbol === '%' ? `</div></${tag}>` : symbol === '&' ? `</span><span class='checkmark'></span></label>` : `</${tag}>`);
+            newNote = newNote.replace(regEx, symbol === '%' ? `</${tag}></${optionalTag}>` : symbol === '&' ? `</span><span class='checkmark'></span></${optionalTag}>` : `</${tag}>`);
           }
         }
       }
 
       // changing # for heading with <h1> html tag
       convertSymbolToTag('#', 'h1');
-      convertSymbolToTag('!', 'b');
-      convertSymbolToTag('_', 'i');
+      convertSymbolToTag('@', 'b');
+      convertSymbolToTag('!', 'i');
       convertSymbolToTag('~', 's');
       convertSymbolToTag('"', 'q');
-      convertSymbolToTag('%', 'code');
-      convertSymbolToTag('&', 'input type="checkbox"');
+      convertSymbolToTag('_', 'u');
+      convertSymbolToTag('%', 'code', 'div', 'class="code"');
+      convertSymbolToTag('&', 'input type="checkbox"', 'label');
 
       return newNote;
     });
@@ -85,14 +90,13 @@ function Notes({ handleNoteChange, textNote, handleFont, onKeydownNote, showDoc 
           </button>
         </div>
         <div className="editor-list">
-          <FontEditor name="Heading" src={headingIcon} onClick={handleFont.bind(null, '#')} />
-          <FontEditor name="Bold" src={boldIcon} onClick={handleFont.bind(null, '!')} />
-          <FontEditor name="Italic" src={italicIcon} onClick={handleFont.bind(null, '_')} />
-          <FontEditor name="Strikethrough" src={strikethroughIcon} onClick={handleFont.bind(null, '~')} />
-          <FontEditor name="Hyperlink" src={hyperlinkIcon} />
-          <FontEditor name="Double-quote" src={doublequoteIcon} onClick={handleFont.bind(null, '"')} />
-          <FontEditor name="Code" src={codeIcon} onClick={handleFont.bind(null, '%')} />
-          <FontEditor name="Image" src={imageIcon} />
+          <FontEditor name="Heading" src={headingIcon} onClick={handleFont.bind(null, '#', '')} />
+          <FontEditor name="Bold" src={boldIcon} onClick={handleFont.bind(null, '@', '')} />
+          <FontEditor name="Italic" src={italicIcon} onClick={handleFont.bind(null, '!', '')} />
+          <FontEditor name="Underline" src={underlineIcon} onClick={handleFont.bind(null, '_', '')} />
+          <FontEditor name="Strikethrough" src={strikethroughIcon} onClick={handleFont.bind(null, '~', '')} />
+          <FontEditor name="Double-quote" src={doublequoteIcon} onClick={handleFont.bind(null, '"', '')} />
+          <FontEditor name="Code" src={codeIcon} onClick={handleFont.bind(null, '%', '')} />
         </div>
         <div className="editor-list">
           <FontEditor name="Bulleted List" src={bulletedlistIcon} onClick={handleFont.bind(null, 'bullet')} />

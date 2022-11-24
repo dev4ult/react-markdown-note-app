@@ -334,6 +334,12 @@ q {
   font-style: italic;
 }
 
+.code {
+  background-color: rgba(226, 226, 226, 0.5);
+  padding: 0.3rem;
+  width: fit-content;
+}
+
 code {
   font-family: consolas;
 }
@@ -345,21 +351,21 @@ code {
 .checkbox {
   position: absolute;
   opacity: 0;
-  cursor: pointer;
 }
 
 .checkmark {
+  cursor: pointer;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   left: 0;
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   border: 2px solid black;
 }
 
 span.text {
-  margin-left: 1.6rem;
+  margin-left: 1.3rem;
 }
 
 .checkbox:checked ~ span.text {
