@@ -3,6 +3,8 @@ import './App.css';
 import Notes from './components/Notes.jsx';
 import Modal from './components/Modal.jsx';
 
+import burgerButton from './assets/burger-button.svg';
+import crossButton from './assets/cross.svg';
 import deleteIcon from './assets/delete.svg';
 import editIcon from './assets/edit.svg';
 import checkIcon from './assets/check.svg';
@@ -315,46 +317,55 @@ function App() {
     setShow(true);
   }
 
+  const [asideShown, setAsideShown] = useState(false);
+
   return (
     <div className="App">
-      <aside className={notes.length !== 0 ? '' : 'flex'}>
-        {notes.length === 0 ? (
-          <button className="heading btn-selected cursor-pointer title-heading" onClick={showDoc}>
-            Doc...
-          </button>
-        ) : (
-          ''
-        )}
-        <button
-          className={'heading cursor-pointer' + (notes.length !== 0 ? ' mb-1rem' : '')}
-          type="button"
-          onClick={function () {
-            setModalType('new-note-form');
-            setShow(true);
-          }}
-        >
-          <h1 className="title-heading">New Note</h1>
-          <div className="btn-show-modal">+</div>
-        </button>
-        {show &&
-          (modalType === 'new-note-form' ? (
-            <Modal
-              title="New Note"
-              textInput="Type your new note here"
-              onKeydown={handleKey}
-              onClickAccept={addNote}
-              btnAcceptModalText="Add"
-              setShowHandle={setShow}
-              handleInput={handleChange}
-              inputVal={inputTextVal}
-              btnHideModalText="Cancel"
-            />
+      <button type="button" className="burger-btn cursor-pointer" onClick={setAsideShown.bind(null, true)}>
+        <img src={burgerButton} alt="Burger button" />
+      </button>
+      <aside className={asideShown ? 'translateX-100' : ''}>
+        <div className={'inner-aside' + (notes.length !== 0 ? '' : ' flex')}>
+          {notes.length === 0 ? (
+            <button className="heading btn-selected cursor-pointer title-heading" onClick={showDoc}>
+              Doc...
+            </button>
           ) : (
-            modal
-          ))}
-        <ul className="tab-title-list">{noteList}</ul>
+            ''
+          )}
+          <button
+            className={'heading cursor-pointer' + (notes.length !== 0 ? ' mb-1rem' : '')}
+            type="button"
+            onClick={function () {
+              setModalType('new-note-form');
+              setShow(true);
+            }}
+          >
+            <h1 className="title-heading">New Note</h1>
+            <div className="btn-show-modal">+</div>
+          </button>
+          <ul className="tab-title-list">{noteList}</ul>
+        </div>
+        <button type="button" className="cross-btn cursor-pointer" onClick={setAsideShown.bind(null, false)}>
+          <img src={crossButton} alt="Cross button" />
+        </button>
       </aside>
-
+      {show &&
+        (modalType === 'new-note-form' ? (
+          <Modal
+            title="New Note"
+            textInput="Type your new note here"
+            onKeydown={handleKey}
+            onClickAccept={addNote}
+            btnAcceptModalText="Add"
+            setShowHandle={setShow}
+            handleInput={handleChange}
+            inputVal={inputTextVal}
+            btnHideModalText="Cancel"
+          />
+        ) : (
+          modal
+        ))}
       {notes.length === 0 ? (
         ''
       ) : (

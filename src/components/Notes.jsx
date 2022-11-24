@@ -59,6 +59,7 @@ function Notes({ handleNoteChange, textNote, handleFont, onKeydownNote, showDoc 
       convertSymbolToTag('#', 'h1');
       convertSymbolToTag('@', 'b');
       convertSymbolToTag('!', 'i');
+
       convertSymbolToTag('~', 's');
       convertSymbolToTag('"', 'q');
       convertSymbolToTag('_', 'u');
